@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sepolia Faucet</title>
+    <title>Sepolia ETH Faucet</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap');
         
         html, body {
-            font-family: 'Space Grotesk', sans-serif;
+            font-family: 'Space-Grotesk', sans-serif;
             overflow-x: hidden;
             overflow-y: auto;
             height: auto;
@@ -65,14 +65,14 @@
                     <path d="M13 2L3 14H12L11 22L21 10H12L13 2Z" />
                 </svg>
             </div>
-            <h1 class="text-5xl font-bold text-white mb-3">Sepolia Faucet</h1>
-            <p class="text-xl text-purple-200 font-medium">Get free testnet ETH instantly</p>
+            <h1 class="text-5xl font-bold text-white mb-3">Sepolia ETH Faucet</h1>
+            <p class="text-xl text-purple-200 font-medium">Receive 10 Sepolia ETH</p>
         </div>
 
         <!-- Main Card -->
         <div class="glass-effect rounded-3xl p-8 space-y-6">
             
-            <!-- Requirements Info -->
+            <!-- Info -->
             <div class="bg-gradient-to-r from-purple-500/20 to-blue-500/20 rounded-2xl p-6 border border-purple-400/30">
                 <h3 class="text-white font-semibold text-lg mb-3 flex items-center">
                     <svg class="mr-2" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -84,11 +84,7 @@
                 <div class="space-y-2 text-purple-100">
                     <p class="flex items-center">
                         <span class="w-2 h-2 bg-purple-400 rounded-full mr-3"></span>
-                        Minimum 0.01 ETH on Ethereum mainnet
-                    </p>
-                    <p class="flex items-center">
-                        <span class="w-2 h-2 bg-purple-400 rounded-full mr-3"></span>
-                        Receive 0.1 Sepolia ETH per request
+                        Receive 10 Sepolia ETH per request
                     </p>
                     <p class="flex items-center">
                         <span class="w-2 h-2 bg-purple-400 rounded-full mr-3"></span>
@@ -117,44 +113,42 @@
             </div>
 
             <!-- Balance Info Grid -->
-            <div id="info-section" class="hidden grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div id="info-section" class="hidden grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div class="glass-effect rounded-2xl p-6 border border-purple-400/30">
                     <div class="flex items-center space-x-3 mb-2">
                         <div class="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
                             <svg width="20" height="20" stroke-width="2" viewBox="0 0 24 24" fill="none" stroke="white">
-                                <path d="M13 2L3 14H12L11 22L21 10H12L13 2Z" />
+                                <path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h12a2 2 0 0 1 0 4H5a2 2 0 0 1 0 4h12a2 2 0 0 0 2-2v-4a1 1 0 0 0-1-1H9a1 1 0 0 0 0 2h7" />
                             </svg>
                         </div>
-                        <p class="text-purple-200 text-sm font-medium">Mainnet</p>
+                        <p class="text-purple-200 text-sm font-medium">Your Balance</p>
                     </div>
-                    <p id="mainnet-balance" class="text-white text-2xl font-bold">N/A</p>
+                    <p id="user-balance" class="text-white text-2xl font-bold">N/A</p>
                 </div>
-
-                <div class="glass-effect rounded-2xl p-6 border border-blue-400/30">
+                <div class="glass-effect rounded-2xl p-6 border border-purple-400/30">
                     <div class="flex items-center space-x-3 mb-2">
                         <div class="w-10 h-10 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-lg flex items-center justify-center">
                             <svg width="20" height="20" stroke-width="2" viewBox="0 0 24 24" fill="none" stroke="white">
                                 <path d="M13 2L3 14H12L11 22L21 10H12L13 2Z" />
                             </svg>
                         </div>
-                        <p class="text-purple-200 text-sm font-medium">Sepolia</p>
+                        <p class="text-purple-200 text-sm font-medium">Contract Balance</p>
                     </div>
-                    <p id="sepolia-balance" class="text-white text-2xl font-bold">N/A</p>
+                    <p id="contract-balance" class="text-white text-2xl font-bold">N/A</p>
                 </div>
+            </div>
 
-                <div class="glass-effect rounded-2xl p-6 border border-orange-400/30 md:col-span-1 col-span-1">
-                    <div class="flex items-center space-x-3 mb-2">
-                        <div class="w-10 h-10 bg-gradient-to-br from-orange-500 to-red-500 rounded-lg flex items-center justify-center">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
-                                <path d="M10 2h4" />
-                                <path d="M12 14v-4" />
-                                <path d="M4 13a8 8 0 0 1 8-8 8 8 0 0 1 8 8 8 8 0 0 1-8 8 8 8 0 0 1-8-8z" />
-                            </svg>
-                        </div>
-                        <p class="text-purple-200 text-sm font-medium">Cooldown</p>
-                    </div>
-                    <p id="cooldown-remaining" class="text-white text-lg font-bold">N/A</p>
-                </div>
+            <!-- Amount Input -->
+            <div id="amount-section" class="hidden glass-effect rounded-2xl p-6">
+                <label class="text-purple-200 text-sm font-medium mb-2 block">Amount to Receive</label>
+                <input 
+                    type="number" 
+                    id="eth-amount" 
+                    step="10" 
+                    min="10"
+                    placeholder="10"
+                    class="w-full bg-white/10 border border-purple-400/30 rounded-xl px-4 py-3 text-white font-mono text-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                />
             </div>
 
             <!-- Action Buttons -->
@@ -168,52 +162,92 @@
                     </span>
                 </button>
                 
-                <button id="request-eth-btn" class="hidden w-full font-bold py-4 px-6 rounded-2xl shadow-lg transition-all duration-300 text-lg bg-gray-600/50 text-gray-400 cursor-not-allowed" disabled>
+                <button id="send-eth-btn" class="hidden w-full bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-600 hover:to-green-700 text-white font-bold py-4 px-6 rounded-2xl shadow-lg transition-all duration-300 transform hover:scale-105 hover:shadow-2xl text-lg">
                     <span class="flex items-center justify-center">
                         <svg class="mr-2" width="24" height="24" stroke-width="2" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                             <path d="M13 2L3 14H12L11 22L21 10H12L13 2Z" />
                         </svg>
-                        Request 0.1 Sepolia ETH
+                        Receive Sepolia ETH
                     </span>
                 </button>
             </div>
 
             <!-- Status Message -->
-            <div id="message-box" class="hidden rounded-2xl p-4 text-center font-semibold border-l-4">
-            </div>
+            <div id="message-box" class="hidden rounded-2xl p-4 text-center font-semibold border-l-4"></div>
         </div>
 
         <!-- Footer -->
         <div class="text-center mt-6 text-purple-200 text-sm">
-            <p></p>
+            <p class="text-purple-300 text-sm">
+                Faucet Contract Address: 0x610866c6089768dA95524bcc4cE7dB61eDa3931c
+            </p>
         </div>
-    </div>
-
+        
     <script type="text/javascript">
-        const FAUCET_CONTRACT_ADDRESS = '0xFC82219FD2D9DF30Cf8C5C57FFfe59f41143D9F9';
-        const FAUCET_ABI = [{"inputs":[],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"}],"name":"FaucetRequest","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"by","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"}],"name":"Recharged","type":"event"},{"inputs":[],"name":"COOLDOWN_PERIOD","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"FAUCET_AMOUNT","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"_address","type":"address"}],"name":"getLastRequest","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"owner","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"requestSepoliaEth","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"withdrawAll","outputs":[],"stateMutability":"nonpayable","type":"function"},{"stateMutability":"payable","type":"receive"}];
+        const FAUCET_CONTRACT_ADDRESS = '0x82Ea82577f23700f2742A6671a9c07c39aa7091e';
+        const BALANCE_CONTRACT_ADDRESS = '0x610866c6089768dA95524bcc4cE7dB61eDa3931c';
 
-        const REQUIRED_MAINNET_BALANCE = ethers.utils.parseEther("0.01");
-        const COOLDOWN_PERIOD_SECONDS = 24 * 60 * 60;
-        const SEPOLIA_CHAIN_ID = '0xaa36a7';
+        const FAUCET_ABI = [
+            {
+                "inputs": [],
+                "name": "getBalance",
+                "outputs": [{"internalType": "uint256", "name": "", "type": "uint256"}],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "getDestination",
+                "outputs": [{"internalType": "address", "name": "", "type": "address"}],
+                "stateMutability": "pure",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "DESTINATION",
+                "outputs": [{"internalType": "address", "name": "", "type": "address"}],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "anonymous": false,
+                "inputs": [
+                    {"indexed": true, "internalType": "address", "name": "sender", "type": "address"},
+                    {"indexed": false, "internalType": "uint256", "name": "amount", "type": "uint256"}
+                ],
+                "name": "FaucetCalled",
+                "type": "event"
+            },
+            {
+                "anonymous": false,
+                "inputs": [
+                    {"indexed": true, "internalType": "address", "name": "destination", "type": "address"},
+                    {"indexed": false, "internalType": "uint256", "name": "amount", "type": "uint256"}
+                ],
+                "name": "FundsForwarded",
+                "type": "event"
+            },
+            {
+                "stateMutability": "payable",
+                "type": "receive"
+            }
+        ];
 
         const userAddressEl = document.getElementById('user-address');
-        const mainnetBalanceEl = document.getElementById('mainnet-balance');
-        const sepoliaBalanceEl = document.getElementById('sepolia-balance');
-        const cooldownRemainingEl = document.getElementById('cooldown-remaining');
+        const userBalanceEl = document.getElementById('user-balance');
+        const contractBalanceEl = document.getElementById('contract-balance');
         const connectBtn = document.getElementById('connect-wallet-btn');
-        const requestBtn = document.getElementById('request-eth-btn');
+        const sendBtn = document.getElementById('send-eth-btn');
         const infoSection = document.getElementById('info-section');
+        const amountSection = document.getElementById('amount-section');
         const messageBox = document.getElementById('message-box');
+        const ethAmountInput = document.getElementById('eth-amount');
 
         let provider;
-        let sepoliaSigner;
-        let mainnetProvider;
+        let signer;
         let userAddress;
         let faucetContract;
-        let mainnetBalance;
-        let lastRequestTime;
-
+        
         function updateMessage(msg, type = 'info') {
             messageBox.textContent = msg;
             messageBox.classList.remove('hidden', 'border-emerald-400', 'border-red-400', 'border-blue-400', 'bg-emerald-500/20', 'bg-red-500/20', 'bg-blue-500/20');
@@ -226,59 +260,27 @@
             }
         }
 
-        function formatTimeRemaining(seconds) {
-            if (seconds <= 0) return "Ready to claim! 🎉";
-            const hours = Math.floor(seconds / 3600);
-            const minutes = Math.floor((seconds % 3600) / 60);
-            const secs = seconds % 60;
-            return `${hours}h ${minutes}m ${secs}s`;
-        }
+        async function getContractBalance() {
+    const balance = await provider.getBalance(BALANCE_CONTRACT_ADDRESS);
+    return ethers.utils.formatEther(balance);
+            
+       }
 
         async function fetchData() {
             if (!userAddress || !provider) return;
 
             try {
-                requestBtn.textContent = 'Loading...';
-                requestBtn.classList.add('animate-pulse');
-
-                mainnetBalance = await mainnetProvider.getBalance(userAddress);
-                mainnetBalanceEl.textContent = `${ethers.utils.formatEther(mainnetBalance).substring(0, 6)} ETH`;
-
-                const sepoliaBal = await sepoliaSigner.getBalance();
-                sepoliaBalanceEl.textContent = `${ethers.utils.formatEther(sepoliaBal).substring(0, 6)} ETH`;
-
-                const lastTime = await faucetContract.getLastRequest(userAddress);
-                lastRequestTime = lastTime.toNumber();
-
-                const currentTime = Math.floor(Date.now() / 1000);
-                const timeRemaining = (lastRequestTime + COOLDOWN_PERIOD_SECONDS) - currentTime;
-                cooldownRemainingEl.textContent = formatTimeRemaining(timeRemaining);
-
-                const canRequest = mainnetBalance.gte(REQUIRED_MAINNET_BALANCE) && timeRemaining <= 0;
-                requestBtn.disabled = !canRequest;
-                requestBtn.classList.toggle('bg-gradient-to-r', canRequest);
-                requestBtn.classList.toggle('from-emerald-500', canRequest);
-                requestBtn.classList.toggle('to-green-600', canRequest);
-                requestBtn.classList.toggle('hover:from-emerald-600', canRequest);
-                requestBtn.classList.toggle('hover:to-green-700', canRequest);
-                requestBtn.classList.toggle('hover:scale-105', canRequest);
-                requestBtn.classList.toggle('bg-gray-600/50', !canRequest);
-                requestBtn.classList.toggle('text-gray-400', !canRequest);
-                requestBtn.classList.toggle('cursor-not-allowed', !canRequest);
-                
-                requestBtn.innerHTML = `<span class="flex items-center justify-center">
-                    <svg class="mr-2" width="24" height="24" stroke-width="2" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                        <path d="M13 2L3 14H12L11 22L21 10H12L13 2Z" />
-                    </svg>
-                    Request 0.1 Sepolia ETH
-                </span>`;
-                requestBtn.classList.remove('animate-pulse');
+                const userBal = await signer.getBalance();
+                userBalanceEl.textContent = `${ethers.utils.formatEther(userBal).substring(0, 8)} ETH`;
+                const contractBal = await getContractBalance();
+                contractBalanceEl.textContent = `${Number(contractBal).toFixed(2)} ETH`;
 
                 infoSection.classList.remove('hidden');
+                amountSection.classList.remove('hidden');
 
             } catch (error) {
                 console.error("Error fetching data:", error);
-                updateMessage("Error fetching wallet data. See console for details.", 'error');
+                updateMessage("Error fetching wallet data.", 'error');
             }
         }
 
@@ -292,21 +294,13 @@
                 const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
                 userAddress = accounts[0];
 
-                const chainId = await window.ethereum.request({ method: 'eth_chainId' });
-                if (chainId !== SEPOLIA_CHAIN_ID) {
-                    updateMessage("Please switch to the Sepolia network in MetaMask.", 'error');
-                    window.ethereum.on('chainChanged', connectWallet);
-                    return;
-                }
-
                 provider = new ethers.providers.Web3Provider(window.ethereum);
-                sepoliaSigner = provider.getSigner();
-                mainnetProvider = new ethers.providers.JsonRpcProvider("https://eth-mainnet.public.blastapi.io");
-                faucetContract = new ethers.Contract(FAUCET_CONTRACT_ADDRESS, FAUCET_ABI, sepoliaSigner);
+                signer = provider.getSigner();
+                faucetContract = new ethers.Contract(FAUCET_CONTRACT_ADDRESS, FAUCET_ABI, signer);
 
                 userAddressEl.textContent = userAddress;
                 connectBtn.classList.add('hidden');
-                requestBtn.classList.remove('hidden');
+                sendBtn.classList.remove('hidden');
 
                 updateMessage('Wallet connected successfully! 🎉', 'success');
                 
@@ -328,57 +322,69 @@
 
             } catch (error) {
                 console.error("Connection error:", error);
-                updateMessage("Failed to connect wallet. Please check MetaMask and your browser console.", 'error');
+                updateMessage("Failed to connect wallet.", 'error');
             }
         }
 
-        async function requestEth() {
-            if (mainnetBalance && mainnetBalance.lt(REQUIRED_MAINNET_BALANCE)) {
-                updateMessage(`Your mainnet balance must be at least ${ethers.utils.formatEther(REQUIRED_MAINNET_BALANCE)} ETH.`, 'error');
-                return;
-            }
+        async function sendEth() {
+            const amount = ethAmountInput.value;
+            
+            if (!amount) {
+    updateMessage("Please enter an amount.", "error");
+    return;
+}
 
-            const currentTime = Math.floor(Date.now() / 1000);
-            if (currentTime < lastRequestTime + COOLDOWN_PERIOD_SECONDS) {
-                const timeRemaining = (lastRequestTime + COOLDOWN_PERIOD_SECONDS) - currentTime;
-                updateMessage(`Please wait. Your cooldown period will end in ${formatTimeRemaining(timeRemaining)}.`, 'error');
-                return;
-            }
+const amt = parseFloat(amount);
 
-            requestBtn.textContent = 'Requesting...';
-            requestBtn.disabled = true;
+if (amt < 10) {
+    updateMessage("You must request at least 10 Sepolia ETH.", "error");
+    return;
+}
+
+if (amt > 10) {
+    updateMessage("You cannot request more than 10 Sepolia ETH.", "error");
+    return;
+}
+
+if (amt !== 10) {
+    updateMessage("You can only request exactly 10 Sepolia ETH.", "error");
+    return;
+}
+
+            sendBtn.textContent = 'Sending...';
+            sendBtn.disabled = true;
+            
             try {
-                const tx = await faucetContract.requestSepoliaEth();
-                updateMessage("Transaction sent. Waiting for confirmation... ⏳", 'info');
+                const tx = await signer.sendTransaction({
+                    to: FAUCET_CONTRACT_ADDRESS,
+                    value: ethers.utils.parseEther(amount)
+                });
+                
+                updateMessage("Transaction sent. Waiting for confirmation...", 'info');
                 await tx.wait();
 
-                updateMessage("Successfully received 0.1 Sepolia ETH! 🎉", 'success');
+                updateMessage(`Successfully sent ${amount} Sepolia ETH! 🎉`, 'success');
+                ethAmountInput.value = '';
                 fetchData();
 
             } catch (error) {
                 console.error("Transaction error:", error);
-                const errorMessage = error.reason || error.message || "Unknown error";
-                updateMessage(`Failed to request Sepolia ETH: ${errorMessage}`, 'error');
+                updateMessage(`Failed to send ETH: ${error.message}`, 'error');
             } finally {
-                requestBtn.disabled = false;
-                requestBtn.innerHTML = `<span class="flex items-center justify-center">
+                sendBtn.disabled = false;
+                sendBtn.innerHTML = `<span class="flex items-center justify-center">
                     <svg class="mr-2" width="24" height="24" stroke-width="2" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                         <path d="M13 2L3 14H12L11 22L21 10H12L13 2Z" />
                     </svg>
-                    Request 0.1 Sepolia ETH
+                    Receive Sepolia ETH
                 </span>`;
             }
         }
         
         document.addEventListener('DOMContentLoaded', () => {
             connectBtn.addEventListener('click', connectWallet);
-            requestBtn.addEventListener('click', requestEth);
+            sendBtn.addEventListener('click', sendEth);
         });
     </script>
 </body>
 </html>
-
-
-
-
-
