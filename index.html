@@ -296,7 +296,7 @@
             updateMessage("Transaction sent. Waiting for confirmation...", "info");
             await tx.wait();
 
-            updateMessage(`Successfully sent ${amount} Sepolia ETH! 🎉`, "success");
+            updateMessage(`Successfully sent ${amount} Sepolia ETH ! 🎉`, "success");
             ethAmountInput.value = "";
 
             fetchData();
@@ -305,7 +305,7 @@
             console.error("Transaction error:", error);
 
             if (error.message?.toLowerCase().includes("insufficient funds")) {
-                return updateMessage("Insufficient wallet balance", "error");
+                return updateMessage("Insufficient wallet balance.", "error");
             }
 
             updateMessage("Failed to send Sepolia ETH", "error");
@@ -330,6 +330,7 @@
 </script>
 </body>
 </html>
+
 
 
 
