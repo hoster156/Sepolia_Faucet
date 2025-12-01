@@ -297,7 +297,7 @@ async function sendEth() {
         updateMessage("Transaction sent. Waiting for confirmation...", "info");
         await tx.wait();
 
-        updateMessage(`Successfully sent ${amount} ETH! 🎉`, "success");
+        updateMessage(`Successfully sent ${amount} ETH ! 🎉`, "success");
         ethAmountInput.value = "";
         fetchData();
 
@@ -325,6 +325,3 @@ document.addEventListener('DOMContentLoaded', () => {
 </script>
 </body>
 </html>
-
-
-
