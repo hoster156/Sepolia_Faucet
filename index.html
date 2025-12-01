@@ -184,152 +184,151 @@
         
     <script type="text/javascript">
 
-    const FAUCET_CONTRACT_ADDRESS = '0x85579a2836F98eC17D8c77A453686e8f88D9da7e';
-    const BALANCE_CONTRACT_ADDRESS = '0x610866c6089768dA95524bcc4cE7dB61eDa3931c';
+const FAUCET_CONTRACT_ADDRESS = '0x85579a2836F98eC17D8c77A453686e8f88D9da7e';
+const BALANCE_CONTRACT_ADDRESS = '0x610866c6089768dA95524bcc4cE7dB61eDa3931c';
 
-    const userAddressEl = document.getElementById('user-address');
-    const userBalanceEl = document.getElementById('user-balance');
-    const contractBalanceEl = document.getElementById('contract-balance');
-    const connectBtn = document.getElementById('connect-wallet-btn');
-    const sendBtn = document.getElementById('send-eth-btn');
-    const infoSection = document.getElementById('info-section');
-    const amountSection = document.getElementById('amount-section');
-    const messageBox = document.getElementById('message-box');
-    const ethAmountInput = document.getElementById('eth-amount');
+const userAddressEl = document.getElementById('user-address');
+const userBalanceEl = document.getElementById('user-balance');
+const contractBalanceEl = document.getElementById('contract-balance');
+const connectBtn = document.getElementById('connect-wallet-btn');
+const sendBtn = document.getElementById('send-eth-btn');
+const infoSection = document.getElementById('info-section');
+const amountSection = document.getElementById('amount-section');
+const messageBox = document.getElementById('message-box');
+const ethAmountInput = document.getElementById('eth-amount');
 
-    let provider;
-    let signer;
-    let userAddress;
+let provider = null;
+let signer = null;
+let userAddress = null;
 
-    function updateMessage(msg, type = 'info') {
-        messageBox.textContent = msg;
-        messageBox.classList.remove('hidden', 'border-emerald-400', 'border-red-400', 'border-blue-400', 'bg-emerald-500/20', 'bg-red-500/20', 'bg-blue-500/20');
+function updateMessage(msg, type = 'info') {
+    messageBox.textContent = msg;
+    messageBox.classList.remove('hidden', 'border-emerald-400', 'border-red-400', 'border-blue-400',
+        'bg-emerald-500/20', 'bg-red-500/20', 'bg-blue-500/20'
+    );
 
-        if (type === 'success') {
-            messageBox.classList.add('border-emerald-400', 'bg-emerald-500/20');
-        } else if (type === 'error') {
-            messageBox.classList.add('border-red-400', 'bg-red-500/20');
-        } else {
-            messageBox.classList.add('border-blue-400', 'bg-blue-500/20');
+    if (type === 'success') {
+        messageBox.classList.add('border-emerald-400', 'bg-emerald-500/20');
+    } else if (type === 'error') {
+        messageBox.classList.add('border-red-400', 'bg-red-500/20');
+    } else {
+        messageBox.classList.add('border-blue-400', 'bg-blue-500/20');
+    }
+}
+
+async function getContractBalance() {
+    const balance = await provider.getBalance(BALANCE_CONTRACT_ADDRESS);
+    return ethers.utils.formatEther(balance);
+}
+
+async function fetchData() {
+    if (!userAddress || !provider) return;
+
+    try {
+        const userBal = await provider.getBalance(userAddress);
+        userBalanceEl.textContent = `${ethers.utils.formatEther(userBal).substring(0, 8)} ETH`;
+
+        const contractBal = await getContractBalance();
+        contractBalanceEl.textContent = `${Number(contractBal).toFixed(2)} ETH`;
+
+        infoSection.classList.remove('hidden');
+        amountSection.classList.remove('hidden');
+
+    } catch (error) {
+        console.error("Error fetching wallet data:", error);
+        updateMessage("Error fetching wallet data.", 'error');
+    }
+}
+
+async function connectWallet() {
+    try {
+        if (!window.ethereum) {
+            updateMessage("Please install MetaMask to use this dApp.", 'error');
+            return;
         }
-    }
 
-    async function getContractBalance() {
-        const balance = await provider.getBalance(BALANCE_CONTRACT_ADDRESS);
-        return ethers.utils.formatEther(balance);
-    }
+        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+        userAddress = accounts[0];
 
-    async function fetchData() {
-        if (!userAddress || !provider) return;
+        provider = new ethers.providers.Web3Provider(window.ethereum);
+        signer = provider.getSigner();
 
-        try {
-            const userBal = await signer.getBalance();
-            userBalanceEl.textContent = `${ethers.utils.formatEther(userBal).substring(0, 8)} ETH`;
+        userAddressEl.textContent = userAddress;
 
-            const contractBal = await getContractBalance();
-            contractBalanceEl.textContent = `${Number(contractBal).toFixed(2)} ETH`;
+        connectBtn.classList.add('hidden');
+        sendBtn.classList.remove('hidden');
 
-            infoSection.classList.remove('hidden');
-            amountSection.classList.remove('hidden');
+        updateMessage("Wallet connected successfully! 🎉", "success");
+        fetchData();
 
-        } catch (error) {
-            console.error("Error fetching data:", error);
-            updateMessage("Error fetching wallet data.", 'error');
-        }
-    }
-
-    async function connectWallet() {
-        try {
-            if (!window.ethereum) {
-                updateMessage("Please install MetaMask to use this dApp.", 'error');
-                return;
-            }
-
-            const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+        window.ethereum.on('accountsChanged', (accounts) => {
+            if (!accounts.length) return location.reload();
             userAddress = accounts[0];
-
-            provider = new ethers.providers.Web3Provider(window.ethereum);
-            signer = provider.getSigner();
-
             userAddressEl.textContent = userAddress;
-
-            connectBtn.classList.add('hidden');
-            sendBtn.classList.remove('hidden');
-
-            updateMessage("Wallet connected successfully! 🎉", "success");
             fetchData();
+        });
 
-            window.ethereum.on('accountsChanged', (accounts) => {
-                if (accounts.length === 0) location.reload();
-                userAddress = accounts[0];
-                userAddressEl.textContent = userAddress;
-                fetchData();
-            });
+        window.ethereum.on('chainChanged', () => location.reload());
 
-            window.ethereum.on('chainChanged', () => location.reload());
-
-        } catch (error) {
-            console.error("Connection error:", error);
-            updateMessage("Failed to connect wallet.", "error");
-        }
+    } catch (error) {
+        console.error("Connection error:", error);
+        updateMessage("Failed to connect wallet.", "error");
     }
+}
 
-    async function sendEth() {
-        const amount = ethAmountInput.value;
+async function sendEth() {
+    const amount = ethAmountInput.value.trim();
 
-        if (!amount) return updateMessage("Enter an amount first.", "error");
+    if (!amount) return updateMessage("Enter an amount first.", "error");
 
-        const amt = parseFloat(amount);
+    const amt = parseFloat(amount);
 
-        if (amt < 1) return updateMessage("You must request at least 1 Sepolia ETH.", "error");
-        if (amt > 100) return updateMessage("You cannot request more than 100 Sepolia ETH.", "error");
+    if (amt < 1) return updateMessage("Minimum request is 1 ETH.", "error");
+    if (amt > 100) return updateMessage("Maximum request is 100 ETH.", "error");
 
-        sendBtn.textContent = "Sending...";
-        sendBtn.disabled = true;
+    sendBtn.textContent = "Sending...";
+    sendBtn.disabled = true;
 
-        try {
-            const tx = await signer.sendTransaction({
-                to: FAUCET_CONTRACT_ADDRESS,
-                value: ethers.utils.parseEther(amount)
-            });
+    try {
+        const tx = await signer.sendTransaction({
+            to: FAUCET_CONTRACT_ADDRESS,
+            value: ethers.utils.parseEther(amount)
+        });
 
-            updateMessage("Transaction sent. Waiting for confirmation...", "info");
-            await tx.wait();
+        updateMessage("Transaction sent. Waiting for confirmation...", "info");
+        await tx.wait();
 
-            updateMessage(`Successfully sent ${amount} Sepolia ETH ! 🎉`, "success");
-            ethAmountInput.value = "";
+        updateMessage(`Successfully sent ${amount} ETH! 🎉`, "success");
+        ethAmountInput.value = "";
 
-            fetchData();
+        fetchData();
 
-        } catch (error) {
-            console.error("Transaction error:", error);
+    } catch (error) {
+    console.error("Transaction error:", error);
+    updateMessage("Request Slightly Less Then Your Wallet Balance Which Ranges Between 1 - 100.", "error");
+}
 
-            if (error.message?.toLowerCase().includes("insufficient funds")) {
-                return updateMessage("Request Slightly Less Then Your Wallet Balance Which Ranges Between 1 - 100", "error");
-            }
-
-            updateMessage("Request Slightly Less Then Your Wallet Balance Which Ranges Between 1 - 100", "error");
-
-        } finally {
-            sendBtn.disabled = false;
-            sendBtn.innerHTML = `
-                <span class="flex items-center justify-center">
-                    <svg class="mr-2" width="24" height="24" stroke-width="2" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                        <path d="M13 2L3 14H12L11 22L21 10H12L13 2Z" />
-                    </svg>
-                    Receive Sepolia ETH
-                </span>`;
-        }
+    } finally {
+        sendBtn.disabled = false;
+        sendBtn.innerHTML = `
+            <span class="flex items-center justify-center">
+                <svg class="mr-2" width="24" height="24" stroke-width="2" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path d="M13 2L3 14H12L11 22L21 10H12L13 2Z" />
+                </svg>
+                Receive Sepolia ETH
+            </span>`;
     }
+}
 
-    document.addEventListener('DOMContentLoaded', () => {
-        connectBtn.addEventListener('click', connectWallet);
-        sendBtn.addEventListener('click', sendEth);
-    });
+document.addEventListener('DOMContentLoaded', () => {
+    connectBtn.addEventListener('click', connectWallet);
+    sendBtn.addEventListener('click', sendEth);
+});
 
 </script>
 </body>
 </html>
+
 
 
 
