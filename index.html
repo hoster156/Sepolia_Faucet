@@ -183,9 +183,8 @@
         </div>
         
     <script type="text/javascript">
-
-const FAUCET_CONTRACT_ADDRESS = '0x85579a2836F98eC17D8c77A453686e8f88D9da7e';
-const BALANCE_CONTRACT_ADDRESS = '0x610866c6089768dA95524bcc4cE7dB61eDa3931c';
+    const FAUCET_CONTRACT_ADDRESS = '0x85579a2836F98eC17D8c77A453686e8f88D9da7e';
+    const BALANCE_CONTRACT_ADDRESS = '0x610866c6089768dA95524bcc4cE7dB61eDa3931c';
 
 const userAddressEl = document.getElementById('user-address');
 const userBalanceEl = document.getElementById('user-balance');
@@ -300,15 +299,14 @@ async function sendEth() {
 
         updateMessage(`Successfully sent ${amount} ETH! 🎉`, "success");
         ethAmountInput.value = "";
-
         fetchData();
 
     } catch (error) {
-    console.error("Transaction error:", error);
-    updateMessage("Request Slightly Less Then Your Wallet Balance Which Ranges Between 1 - 100.", "error");
-}
+        console.error("Transaction error:", error);
+        updateMessage("Request Slightly Less Then Your Wallet Balance Which Ranges Between 1 - 100.", "error");
+    }
 
-    } finally {
+    finally {
         sendBtn.disabled = false;
         sendBtn.innerHTML = `
             <span class="flex items-center justify-center">
@@ -324,13 +322,6 @@ document.addEventListener('DOMContentLoaded', () => {
     connectBtn.addEventListener('click', connectWallet);
     sendBtn.addEventListener('click', sendEth);
 });
-
 </script>
 </body>
 </html>
-
-
-
-
-
-
