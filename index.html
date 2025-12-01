@@ -305,10 +305,10 @@
             console.error("Transaction error:", error);
 
             if (error.message?.toLowerCase().includes("insufficient funds")) {
-                return updateMessage("Request Slightly Less Then Your Wallet Balance Which Ranges Between 1 - 100", "error");
+                return updateMessage("Insufficient wallet balance", "error");
             }
 
-            updateMessage("Request Slightly Less Then Your Wallet Balance Which Ranges Between 1 - 100", "error");
+            updateMessage("Failed to send Sepolia ETH", "error");
 
         } finally {
             sendBtn.disabled = false;
@@ -330,5 +330,6 @@
 </script>
 </body>
 </html>
+
 
 
