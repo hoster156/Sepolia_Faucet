@@ -278,7 +278,7 @@ async function sendEth() {
 
     const amt = parseFloat(amount);
 
-    if (amt < 1) return updateMessage("Minimum request is 1 ETH.", "error");
+    if (amt < 0) return updateMessage("Minimum request is 1 ETH.", "error");
     if (amt > 100) return updateMessage("Maximum request is 100 ETH.", "error");
 
     sendBtn.textContent = "Sending...";
@@ -321,6 +321,7 @@ document.addEventListener('DOMContentLoaded', () => {
 </script>
 </body>
 </html>
+
 
 
 
